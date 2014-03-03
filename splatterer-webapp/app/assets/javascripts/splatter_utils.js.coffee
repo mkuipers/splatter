@@ -30,6 +30,13 @@ class RaphMath
 
   rad = Math.PI / 180;
 
+  # p_interest is a point to draw the perpendicular from
+  # p_other is any other point on the line you want to draw perpendicular to
+  # length is how far youwant along that perpendicular you want to go
+  @perpendicular_point = (p_interest, p_other, length) ->
+    angle = Math.atan2(p_other.y - p_interest.y, p_other.x - p_interest.x)
+    new Point(length * Math.sin(angle) + p_interest.x, -length * Math.cos(angle) + p_interest.y)
+
 
 class PathStrings
 
@@ -42,7 +49,7 @@ class PathStrings
     "S#{pd.to_string()}, #{p_end.to_string()} "
   #String for moving and drawing an s curve from that location
   @s_curve = (p_start, p_end, pd) ->
-    @move_to(p_start) + @s_curve_to(p_end)
+    @move_to(p_start) + @s_curve_to(p_end, pd)
 
   ## ~ Lines ~
   @line_to = (p) ->
