@@ -1,5 +1,8 @@
 
 class Point
+  @new_from_click_event = (e) ->
+    new Point(e.offsetX, e.offsetY)
+
   constructor: (x, y) ->
     @x = x
     @y = y
@@ -28,19 +31,42 @@ class RaphMath
   rad = Math.PI / 180;
 
 
+class PathStrings
+
+  ## ~ Curves ~
+  #String for moving the turtle to this space
+  @move_to = (p) ->
+    "M#{p.to_string()} "
+  #String for drawing S curve to a location
+  @s_curve_to = (p_end, pd) ->
+    "S#{pd.to_string()}, #{p_end.to_string()} "
+  #String for moving and drawing an s curve from that location
+  @s_curve = (p_start, p_end, pd) ->
+    @move_to(p_start) + @s_curve_to(p_end)
+
+  ## ~ Lines ~
+  @line_to = (p) ->
+    "L#{p.to_string()} "
+  #String representing drawing a string between two points
+  @line = (p_start, p_end) ->
+    @move_to(p_start) + @line_to(p_end)
 
 
-  @draw_s_curve = (p1, p2, pd, paper) ->
-    pathstring = "M#{p1.to_string()} S#{pd.to_string()}, #{p2.to_string()}"
-    console.log pathstring
-    paper.path("M"+p1.to_string()+"S"+ pd.to_string() + "," + p2.to_string())
-  #@draw_qb_curve = (p1, p2, pd)
 
-  @draw_line = (p1, p2) ->
-    pathstring = "M#{p1.to_string()} L#{p2.to_string()} "
-    @paper.path(pathstring)
+
+  # @draw_s_curve = (p1, p2, pd, paper) ->
+  #   pathstring = "M#{p1.to_string()} S#{pd.to_string()}, #{p2.to_string()}"
+  #   console.log pathstring
+  #   paper.path("M"+p1.to_string()+"S"+ pd.to_string() + "," + p2.to_string())
+  # #@draw_qb_curve = (p1, p2, pd)
+
+  # @draw_line = (p1, p2) ->
+  #   pathstring = "M#{p1.to_string()} L#{p2.to_string()} "
+  #   @paper.path(pathstring)
 
 
 
 $ ->
   window.Point = Point
+  window.PathStrings = PathStrings
+  window.RaphMath = RaphMath
